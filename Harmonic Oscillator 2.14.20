@@ -1,0 +1,91 @@
+Computational Exercise 1: A Vary Great, Very Harmonic, Wavefunction¶
+We will apply the Variational Method to the Harmonic Oscillator. In particular, we will optimize the trial wavefunction given by
+Φ(𝑥)=exp(−𝛼𝑥2),
+ 
+where  𝛼  is an adjustable parameter that will be variationally optimized. In particular, the goal will be to minimize the energy functional given by
+𝐸[Φ(𝑥)]=∫∞−∞Φ∗(𝑥)𝐻̂ Φ(𝑥)𝑑𝑥∫∞−∞Φ∗(𝑥)Φ(𝑥)𝑑𝑥
+ 
+by modulating the trial wavefunction through the adjustable parameter  𝛼 .
+
+The Hamiltonian operator for Harmonic Oscillator is given by
+𝐻̂ =−ℏ22𝑚𝑑2𝑑𝑥2+12𝑘𝑥2.
+ 
+We will use a system of natural units where  ℏ=1 , the mass of the particle  𝑚=1 , and the force constant of the potential  𝑘=1 .
+
+Questions
+What is the optimal value of  𝐸[Φ(𝑥)]  in natural units? How does this value compare to the true ground state energy of the Harmonic Oscillator?
+What is the optimal value of  𝛼  in natural units? How does  Φ(𝑥)  with this value of  𝛼  compare to the true ground state wavefunction?
+What is the kinetic energy expectation value of the optimized trial wavefunction in natural units?
+What is the potential energy expectation value of the optimized trial wavefunction in natural units?
+(Hopefully) Helpful Hints
+You can represent your trial wavefunction numerically on the computer by creating an array of x-values, evaluating the formula for your trial wavefunction at each of those x-values, and then storing each of those function values in another array. The following lines of code will do this using  𝑛𝑢𝑚𝑝𝑦  arrays and the  𝑛𝑢𝑚𝑝𝑦.𝑒𝑥𝑝  function.
+
+2
+import numpy as np
+from matplotlib import pyplot as plt
+### create an array of 1000 x-values between x=-20 and x=20 atomic units
+x_array = np.linspace(-20,20,1000)
+### pick a trial value of alpha... might as well be 1 atomic unit!
+alpha = 1.0
+### evaluate your trial wavefunction at each of the x-values stored in the array called 'x_array'
+Phi = np.exp(-alpha * x_array**2)
+Vx= 1/2. * x_array **2
+plt.plot (x_array, Phi, 'purple', label= 'Trial run')
+plt.plot(x_array, Vx, 'green', label= 'potential')
+plt.xlim (-5,5)
+plt.ylim(0,2)
+plt.legend()
+​
+plt.show()
+
+To evaluate the kinetic energy of a trial wavefunction, we will need to take the second derivative of the trial wavefunction. One way to take derivatives on a computer is to use the method of finite differences. In particular, the forward finite difference approximation to the first derivative of your trial wavefunction Φ(𝑥) at the point 𝑥0 can be written symbolically as
+𝑑Φ(𝑥0)𝑑𝑥=Φ(𝑥0+𝑑𝑥)−Φ(𝑥0)𝑑𝑥
+where in our code, 𝑑𝑥 will be determined by the range of x-values and the number of x-values used in defining 𝑥𝑎𝑟𝑟𝑎𝑦.
+
+Create a function called 𝑑𝑓𝑑𝑥 that takes an array of x-values and an array of function values evaluated at each x-value and returns the first derivative of the function values with respect to x. Then, show that calling this function in sequence can be used to compute the second derivative of an array of function values.
+
+A skeleton of the function looks like this:
+
+def dfdx(fx, x):
+    ### loop through values of fx and x and use forward finite-differences 
+    ### to compute the d/dx of fx at each point and store in an array called 'fxp'
+    ### make sure to poperly handle
+    ### the last point where f(x_0 + dx) is not stored
+    fxp = np.zeros_like(fx)
+    
+    for i in range(0,len(x)-1):
+        rise= fx[i+1] -fx[i]
+        run= x[i+1] - x[i]
+        slope= rise/ run
+        fxp[i] = slope
+    
+    ### create a numpy array called fxp that has the same length
+    ### and data type as the array of function values you are differentiating
+    
+      
+    ''' your forward finite difference code goes here! 
+    
+    
+    '''
+    
+    ### once you have computed all fxp values, return the array!
+    return fxp
+And the calling sequence for 𝑑𝑓𝑑𝑥 to compute the second derivative of a trial wavefunction we defined previously will look like this:
+
+### Call dfdx on Phi to get the first derivative of Phi
+Phi_p = dfdx(Phi, x_array)
+​
+Phi_wa = -2 * alpha * x_array * Phi
+​
+plt.plot(x_array, Phi_p, 'red', label= 'dfdx result')
+plt.plot (x_array, Phi_wa,'b--' , label= 'Wolfram alpha result')
+plt.legend()
+​
+plt.show()
+​
+​
+### Call dfdx on Phi_p to get the second derivative of Phi
+Phi_pp = dfdx(Phi_p, x_array)
+​
+
+​
