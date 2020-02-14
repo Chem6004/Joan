@@ -1,0 +1,16 @@
+Questions Part 2:
+Is the energy you calculated above higher or lower than the ground state energy of the ordinary particle in a box system (without the delta function potential)?
+
+  - Energy above is lower than the ground state energy calculated for an ordinary PIB simulations. 
+
+Why do you think mixing in functions that correspond to excited states in the ordinary particle in a box system actually helped to improve (i.e. lower) your energy in the system with the delta function potential?
+
+  - Mixing functions allowed us to apply the Linear Variational Method to this PIB, with a potential at x=5, with this method
+  we are able to mix different functions, along with varying coeeficient values. Varying coefficients and the manipulation of
+  the original function afforded us with the true ground state energy. True ground state energy is the lowest possible
+  energy state which is able to be acquired, the lower our energy, the more stable the eigen state is. 
+ 
+
+Increase the number of basis functions to 6 (so that  𝐇  is a 6x6 matrix and  𝐜  is a vector with 6 entries) and repeat your calculation of the variational estimate of the ground state energy. Does the energy improve (lower) compared to what it was when 3 basis functions were used?
+
+  -Energy obtained after matrix was changed to 6 basis functions was much more higher than when 3 basis functions were used to manipulate the original function. Energy value calculated after the 6x6 matrises were introduced was 1.52775226519596, were as the value was 0.16573541893898724. Our new value is almost 10 times more energetic than our original obtained value was. 
